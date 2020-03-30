@@ -13,7 +13,7 @@ let playerInfo = {
     gunLength: 63
 }
 
-const socket = io.connect('localhost:3000')
+const socket = io.connect('https://tank-multiplayer.herokuapp.com')
 socket.emit("register", playerInfo)
 socket.on("setCanvasSize", data => {
     canvas.width = data.width
