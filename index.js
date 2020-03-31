@@ -187,7 +187,7 @@ io.on('connection', socket => {
 
 
     socket.on("chat-msg", msg => {
-        socket.broadcast.emit("msg", {messsage: msg, sender: players[socket.id]["name"]})
+        socket.broadcast.emit("msg", {message: msg, sender: players[socket.id]["name"]})
     })
 
     //henter kontrollerinput fra spiller

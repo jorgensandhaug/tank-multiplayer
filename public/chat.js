@@ -9,7 +9,7 @@ socket.on("msg", data => {
 function displayMsg(msg, sender){
     let newChatBubble = document.createElement("div")
     newChatBubble.setAttribute("class", "chat-bubble")
-    newChatBubble.innerHTML = `<p class='chat-name'>${sender}:</p><p class='chat-message'>${msg}:</p>`
+    newChatBubble.innerHTML = `<p class='chat-name'>${sender}:</p><p class='chat-message'>${msg}</p>`
     chatBubbles.push(newChatBubble)
     chatMsg.appendChild(newChatBubble)
 }
