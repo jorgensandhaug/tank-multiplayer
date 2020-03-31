@@ -38,10 +38,29 @@
             padding: 20px;
             height: 800;
         }
+        #overlay{
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+        #register-form{
+            display: flex;
+            flex-direction: column;
+        }
+        
 
     </style>
 </head>
 <body>
+    <div id="overlay">
+        <form id="register-form">
+            Type your name here: <input id="register-input" type="text" required>
+            <input type="submit" value="Send" id="register-btn">
+        </form>
+    </div>
+
     <canvas></canvas>
     <div id="chat">
         <div id="chat-msg"></div>

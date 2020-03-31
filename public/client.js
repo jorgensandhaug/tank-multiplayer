@@ -1,31 +1,20 @@
 const canvas = document.querySelector("canvas")
 const c = canvas.getContext("2d")
 canvas.style.border = "1px solid black"
-// canvas.width = window.innerWidth-400
-// canvas.height = window.innerHeight-40
+const overlay = document.getElementById("overlay")
+overlay.style.width = window.innerWidth-20
+overlay.style.height = window.innerHeight-20
+overlay.style.backgroundImage = "url('https://picsum.photos/200/300')"
+const registerInp = document.getElementById("register-input")
+const registerForm = document.getElementById("register-form")
+let socket
 
 
 let players = {}
 
-let playerInfo = {
-    name: "Jørgen",
-    speed: 3,
-    gunLength: 63
-}
-
-const socket = io.connect('https://tank-multiplayer.herokuapp.com')
-socket.emit("register", playerInfo)
-socket.on("setCanvasSize", data => {
-    canvas.width = data.width
-    canvas.height = data.height
-})
 
 
 
-
-socket.on("updatePlayers", data => {
-    players = data
-})
 
 
 
@@ -186,6 +175,25 @@ function animate(){
 
     requestAnimationFrame(animate)
 }
-setTimeout( () => {
+
+
+registerForm.addEventListener("submit", ()=>{
+    let playerInfo = {
+        name: registerInp.value,
+        speed: 3,
+        gunLength: 63
+    }
+    socket = io.connect('https://tank-multiplayer.herokuapp.com')
+    socket.emit("register", playerInfo)
+    socket.on("setCanvasSize", data => {
+        canvas.width = data.width
+        canvas.height = data.height
+    })
+    
+    
+    socket.on("updatePlayers", data => {
+        players = data
+    })
+
     animate()
-}, 1000)
+})
