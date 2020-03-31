@@ -196,6 +196,7 @@ registerForm.addEventListener("submit", (e)=>{
     chatDiv.style.display = "block"
     canvas.style.display = "block"
     overlay.style.display = "none"
+    document.body.innerHTML += "<script defer src='chat.js'></script>"
 
 
     animate()
