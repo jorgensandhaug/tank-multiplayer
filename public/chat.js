@@ -10,7 +10,8 @@ console.log("nå er chat-scriptet lagt til")
 
 function displayMsg(msg, sender){
     let newChatBubble = document.createElement("div")
-    newChatBubble.setAttribute("class", "chat-bubble")
+    if(sendder == "Me") newChatBubble.setAttribute("class", "chat-bubble-green")
+    else newChatBubble.setAttribute("class", "chat-bubble-blue")
     newChatBubble.innerHTML = `<p class='chat-name'>${sender}:</p><p class='chat-message'>${msg}</p>`
     chatBubbles.push(newChatBubble)
     chatMsg.appendChild(newChatBubble)

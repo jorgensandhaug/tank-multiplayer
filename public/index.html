@@ -14,11 +14,19 @@
             flex-direction: row;
         }
 
-        .chat-bubble{
+        .chat-bubble-blue{
             width: 200px;
             height: 70px;
             border-radius: 10px;
             background-color:cadetblue;
+            padding: 15px;
+            margin: 20px;
+        }
+        .chat-bubble-green{
+            width: 200px;
+            height: 70px;
+            border-radius: 10px;
+            background-color:green;
             padding: 15px;
             margin: 20px;
         }
@@ -53,6 +61,39 @@
             display: flex;
             flex-direction: column;
         }
+        #register-input{
+            width: 200px;
+            height: 50px;
+            font-size: 18px;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 30px;
+        }
+        input[type="button"], input[type="submit"] {
+        display: inline-block;
+        padding: 15px 25px;
+        margin-top: 5px;
+        margin-bottom: 48px;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #DC143C;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+        }
+        input[type="button"], input[type="submit"] :hover {
+            background-color: #3e8e41
+        }
+
+        input[type="button"], input[type="submit"] :active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
         
 
     </style>
@@ -60,7 +101,7 @@
 <body>
     <div id="overlay">
         <form id="register-form">
-            Type your name here: <input id="register-input" type="text" required>
+            <h1>Type your name here:</h1> <input id="register-input" type="text" required>
             <input type="submit" value="Send" id="register-btn">
         </form>
     </div>
