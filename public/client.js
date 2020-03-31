@@ -17,7 +17,8 @@ document.addEventListener('contextmenu', event => event.preventDefault())
 document.addEventListener('dragstart', event => event.preventDefault())
 
 
-let socket = io.connect('https://tank-multiplayer.herokuapp.com/')
+// let socket = io.connect('https://tank-multiplayer.herokuapp.com/')
+let socket = io.connect('localhost:3000')
 
 socket.on("setCanvasSize", data => {
     canvas.width = data.width
@@ -116,7 +117,14 @@ function drawPlayer(player){
     c.translate(-player.pos.x, -player.pos.y)
     c.drawImage(tankImg, 0, 0, 64, 64, player.pos.x-24, player.pos.y-24, 48, 48)
     c.restore()
+
+    //tegner navn og hp-bar
+    c.fillStyle = "black"
+    c.font = "14px Monospace"
+    c.textAlign = "center"
+    c.fillText(player.name, player.pos.x, player.pos.y-25)
     c.closePath()
+
 
 
     c.beginPath()

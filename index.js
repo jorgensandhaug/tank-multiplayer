@@ -250,6 +250,7 @@ io.on('connection', socket => {
     //fjerner spiller når han disconnecter
     socket.on("disconnect", (reason) => {
         console.log(`${players[socket.id].name} has left` )
+        socket.broadcast.emit("msg", {message:`${players[socket.id]["name"]} has left the chat`, sender: "Server"})
         delete players[socket.id]
     })
 
