@@ -21,9 +21,7 @@ socket.on("setCanvasSize", data => {
 })
 
 
-socket.on("msg", data => {
-    console.log(data)
-})
+
 
 socket.on("updatePlayers", data => {
     players = data

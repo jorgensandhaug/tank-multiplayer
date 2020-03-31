@@ -183,6 +183,13 @@ io.on('connection', socket => {
         socket.emit("msg", `Hei, nå er du koblet på og din socket ligger i systemet`)
 
         socket.emit("setCanvasSize", canvas)
+
+
+
+    socket.on("chat-msg", msg => {
+        socket.broadcast.emit("msg", {messsage: msg, sender: players[socket.id]["name"]})
+    })
+    
     //henter kontrollerinput fra spiller
     socket.on("updateController", key => {
         players[socket.id].controller[key.keyName] = key.state
