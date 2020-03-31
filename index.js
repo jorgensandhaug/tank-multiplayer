@@ -66,6 +66,7 @@ class Player{
         this.vel = {x:0, y:0}
         this.r = 14
         this.health = 400
+        this.startHealth = 400
         this.money = 0
         this.angle = 0
         this.gunLength = gunLength
@@ -202,7 +203,9 @@ io.on('connection', socket => {
     })
 
     //venter på at spiller skal skyte
-    socket.on("singleFire", () => {
+    socket.on("singleFire", data => {
+        players[socket.id]["mouse"] = data
+
         const pp = players[socket.id]
         mouseIsPressed = true
   
