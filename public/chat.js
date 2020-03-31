@@ -17,8 +17,8 @@ function displayMsg(msg, sender){
 function sendMsg(msg){
     if(chatInp.value != ""){
         socket.emit("chat-msg", chatInp.value)
-        chatInp.value = chatInp.placeholder
         displayMsg(chatInp.value, "Me")
+        chatInp.value = chatInp.placeholder
     }
 }
 

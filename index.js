@@ -180,7 +180,7 @@ io.on('connection', socket => {
         sockets[socket.id] = socket
         players[socket.id] = new Player(pInfo.name, pInfo.speed, pInfo.gunLength)
 
-        socket.emit("msg", `Hei, nå er du koblet på og din socket ligger i systemet`)
+        socket.emit("msg", {message:`Hei, nå er du koblet på og din socket ligger i systemet`, sender: "Server"})
 
         socket.emit("setCanvasSize", canvas)
 
@@ -189,7 +189,7 @@ io.on('connection', socket => {
     socket.on("chat-msg", msg => {
         socket.broadcast.emit("msg", {messsage: msg, sender: players[socket.id]["name"]})
     })
-    
+
     //henter kontrollerinput fra spiller
     socket.on("updateController", key => {
         players[socket.id].controller[key.keyName] = key.state
