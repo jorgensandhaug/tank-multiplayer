@@ -69,7 +69,7 @@ class Player{
         this.money = 0
         this.angle = 0
         this.gunLength = gunLength
-        this.mode = "shotgun"
+        this.mode = "pistol"
         this.readyToShoot = true
         this.oldTime = 0
         this.fireRate = 1
@@ -177,10 +177,11 @@ function updatePlayerObject(){
 io.on('connection', socket => {
     console.log("connected: " + socket.id)
     socket.on("register", pInfo => {
+
         sockets[socket.id] = socket
         players[socket.id] = new Player(pInfo.name, pInfo.speed, pInfo.gunLength)
 
-        socket.emit("msg", {message:`Hei, nå er du koblet på og din socket ligger i systemet`, sender: "Server"})
+        socket.emit("msg", {message:`You are connected to the chat`, sender: "Server"})
 
         socket.emit("setCanvasSize", canvas)
 

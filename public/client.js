@@ -4,11 +4,30 @@ canvas.style.border = "1px solid black"
 const overlay = document.getElementById("overlay")
 overlay.style.width = window.innerWidth-20+"px"
 overlay.style.height = window.innerHeight-20+"px"
-overlay.style.backgroundImage = "url('https://picsum.photos/200/300')"
+overlay.style.backgroundImage = `url('https://picsum.photos/${overlay.style.width}/${overlay.style.height}')`
 const registerInp = document.getElementById("register-input")
 const registerForm = document.getElementById("register-form")
 const chatDiv = document.getElementById("chat")
-let socket
+
+
+//disable right-click
+document.addEventListener('contextmenu', event => event.preventDefault())
+
+//disable drag
+document.addEventListener('dragstart', event => event.preventDefault())
+
+
+let socket = io.connect('https://tank-multiplayer.herokuapp.com/')
+
+socket.on("setCanvasSize", data => {
+    canvas.width = data.width
+    canvas.height = data.height
+})
+
+
+socket.on("updatePlayers", data => {
+    players = data
+})
 
 
 let players = {}
@@ -124,6 +143,45 @@ function drawPlayer(player){
 
 
 
+
+
+//sender instruksjoner til serveren om hvilke keys som holdes nede
+function keyHandling(e){
+    let keyName = false
+    if(e.keyCode == 65) keyName = "a"
+    else if(e.keyCode == 87) keyName = "w"
+    else if(e.keyCode == 68) keyName = "d"
+    else if(e.keyCode == 83) keyName = "s"
+
+    if(keyName != false){
+        let state = e.type == "keydown" ? true : false
+        socket.emit("updateController", {
+            keyName: keyName,
+            state: state
+        })
+    }
+}
+
+//sender museposisjon til serveren
+function moveMouse(e){
+    socket.emit("updateMouse", {x: e.clientX - 8, y: e.clientY - 8})
+}
+
+function singleFire(e){
+    moveMouse(e)
+    socket.emit("singleFire", "Tror ikke jeg trenger noe data her")
+}
+
+
+
+window.addEventListener("keyup", keyHandling)
+window.addEventListener("keydown", keyHandling)
+window.addEventListener("mousemove", moveMouse)
+window.addEventListener("mousedown", singleFire)
+
+
+
+
 function animate(){
     c.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -138,65 +196,23 @@ function animate(){
 
 
 
-
 registerForm.addEventListener("submit", (e)=>{
     e.preventDefault()
+    
     let playerInfo = {
         name: registerInp.value,
         speed: 3,
         gunLength: 63
     }
-    socket = io.connect('https://tank-multiplayer.herokuapp.com')
+
+
     socket.emit("register", playerInfo)
-    socket.on("setCanvasSize", data => {
-        canvas.width = data.width
-        canvas.height = data.height
-    })
+
     
-    
-    socket.on("updatePlayers", data => {
-        players = data
-    })
-
-
-    //sender instruksjoner til serveren om hvilke keys som holdes nede
-    function keyHandling(e){
-        let keyName = false
-        if(e.keyCode == 65) keyName = "a"
-        else if(e.keyCode == 87) keyName = "w"
-        else if(e.keyCode == 68) keyName = "d"
-        else if(e.keyCode == 83) keyName = "s"
-
-        if(keyName != false){
-            let state = e.type == "keydown" ? true : false
-            socket.emit("updateController", {
-                keyName: keyName,
-                state: state
-            })
-        }
-    }
-
-    //sender museposisjon til serveren
-    function moveMouse(e){
-        socket.emit("updateMouse", {x: e.clientX - 8, y: e.clientY - 8})
-    }
-
-    function singleFire(e){
-        moveMouse(e)
-        socket.emit("singleFire", "Tror ikke jeg trenger noe data her")
-    }
-
-
-
-    window.addEventListener("keyup", keyHandling)
-    window.addEventListener("keydown", keyHandling)
-    window.addEventListener("mousemove", moveMouse)
-    window.addEventListener("mousedown", singleFire)
-
     chatDiv.style.display = "block"
     canvas.style.display = "block"
     overlay.style.display = "none"
-    document.body.innerHTML += "<script defer src='chat.js'></script>"
+    // document.querySelector("body").innerHTML += "<script src='chat.js'></script type='text/javascript'>"
 
 
     animate()
