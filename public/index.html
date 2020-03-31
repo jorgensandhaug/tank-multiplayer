@@ -14,35 +14,34 @@
             flex-direction: row;
         }
 
-        .chat-bubble-blue{
-            width: 200px;
-            height: 70px;
+        .chat-bubble{
+            width: 150px;
+            /* height: 40px; */
             border-radius: 10px;
-            background-color:cadetblue;
-            padding: 15px;
-            margin: 20px;
+            padding: 5px;
+            margin: 5px;
+            display: flex;
+            flex-direction: row;
         }
-        .chat-bubble-green{
-            width: 200px;
-            height: 70px;
-            border-radius: 10px;
-            background-color:green;
-            padding: 15px;
-            margin: 20px;
-        }
+
         #chat-msg{
             display: flex;
-            flex-direction: column-reverse;
+            flex-direction: column;
             overflow: scroll;
+            overflow-x: hidden;
+            height: 750px;
         }
         .chat-name{
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
+            margin: 0;
+            margin-right: 5px;
         }
         .chat-message{
-            font-size: 12px;
-
+            font-size: 14px;
+            margin: 0;
         }
+
         #chat{
             padding: 20px;
             height: 800;

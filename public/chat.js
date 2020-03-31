@@ -10,11 +10,18 @@ console.log("nå er chat-scriptet lagt til")
 
 function displayMsg(msg, sender){
     let newChatBubble = document.createElement("div")
-    if(sender == "Me") newChatBubble.setAttribute("class", "chat-bubble-green")
-    else newChatBubble.setAttribute("class", "chat-bubble-blue")
-    newChatBubble.innerHTML = `<p class='chat-name'>${sender}:</p><p class='chat-message'>${msg}</p>`
+    newChatBubble.setAttribute("class", "chat-bubble")
+
+    //backgroundcolor på chat-bubbles
+    if(sender == "Me") newChatBubble.style.backgroundColor = "green"
+    else if(sender == "Server") newChatBubble.style.backgroundColor = "#b11226"
+    else newChatBubble.style.backgroundColor = "cadetblue"
+
+    
+    newChatBubble.innerHTML = `<p class='chat-name'>${sender}:  </p><p class='chat-message'>${msg}</p>`
     chatBubbles.push(newChatBubble)
     chatMsg.appendChild(newChatBubble)
+    chatMsg.scrollTop = 100000
 }
 
 function sendMsg(msg){

@@ -17,7 +17,7 @@ document.addEventListener('contextmenu', event => event.preventDefault())
 document.addEventListener('dragstart', event => event.preventDefault())
 
 
-let socket = io.connect('https://tank-multiplayer.herokuapp.com/')
+let socket = io.connect('localhost:3000')
 
 socket.on("setCanvasSize", data => {
     canvas.width = data.width

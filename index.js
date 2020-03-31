@@ -182,7 +182,7 @@ io.on('connection', socket => {
         players[socket.id] = new Player(pInfo.name, pInfo.speed, pInfo.gunLength)
 
         socket.emit("msg", {message:`You are connected to the chat`, sender: "Server"})
-
+        socket.broadcast.emit("msg", {message:`${players[socket.id]["name"]} has joined the chat`, sender: "Server"})
         socket.emit("setCanvasSize", canvas)
 
 
