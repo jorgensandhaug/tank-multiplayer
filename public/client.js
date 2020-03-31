@@ -7,6 +7,7 @@ overlay.style.height = window.innerHeight-20+"px"
 overlay.style.backgroundImage = "url('https://picsum.photos/200/300')"
 const registerInp = document.getElementById("register-input")
 const registerForm = document.getElementById("register-form")
+const chatDiv = document.getElementById("chat")
 let socket
 
 
@@ -192,5 +193,12 @@ registerForm.addEventListener("submit", (e)=>{
     window.addEventListener("mousemove", moveMouse)
     window.addEventListener("mousedown", singleFire)
 
+    chatDiv.style.display = "block"
+    canvas.style.display = "block"
+    overlay.style.display = "none"
+
+
     animate()
+
+
 })
