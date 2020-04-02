@@ -47,20 +47,33 @@ class Bullet{
         // inneholder masse verdier for hvor bildet skal tegnes inn
         this.b = b
     }
+    remove(){
+        players[this.playerID].bulletArr.splice(players[this.playerID].bulletArr.indexOf(this), 1)
+    }
     update(){
         this.pos.x+=this.vel.x
         this.pos.y+=this.vel.y
 
         //utenfor canvas:
         if(this.pos.x < 0 || this.pos.x > canvas.width || this.pos.y < 0 || this.pos.y > canvas.height){
-            players[this.playerID].bulletArr.splice(players[this.playerID].bulletArr.indexOf(this), 1)
+            this.remove()
         }
+
+
+        Object.keys(players).some( key => {
+            if(distance(this.pos, players[key].pos) < this.r + players[key].r){
+                players[key].health -= this.damage
+                this.remove()
+                return true
+            }
+        })   
     }
 }
 
 
 class Player{
-    constructor(name, speed, gunLength){
+    constructor(name, speed, gunLength, playerID){
+        this.playerID = playerID
         this.name = name
         this.pos = {x: canvas.width/2, y: canvas.height/2}
         this.vel = {x:0, y:0}
@@ -78,7 +91,7 @@ class Player{
         this.shotGunShots = 20
         this.bulletSpeed = 8
         this.bulletRadius = 5
-        this.baseDmg = 50
+        this.baseDmg = 30
         this.addedDmg = 0
         this.b = {
             SX: 0,
@@ -153,7 +166,7 @@ class Player{
         
 
         if(this.health <= 0){
-            youLose()
+            sockets[this.playerID].emit("you-die", "You were killed by...")
         }
 
         if(this.pos.x < this.r && this.controller["a"]) this.vel.x = 0.01
