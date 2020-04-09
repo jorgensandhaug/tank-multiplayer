@@ -2,9 +2,9 @@ const canvas = document.querySelector("canvas")
 const c = canvas.getContext("2d")
 canvas.style.border = "1px solid black"
 const overlay = document.getElementById("overlay")
-overlay.style.width = window.innerWidth-20+"px"
-overlay.style.height = window.innerHeight-20+"px"
-overlay.style.backgroundImage = `url('https://picsum.photos/${window.innerWidth-20}/${window.innerHeight-20}')`
+overlay.style.width = window.innerWidth+"px"
+overlay.style.height = window.innerHeight+"px"
+overlay.style.backgroundImage = `url('https://picsum.photos/${window.innerWidth}/${window.innerHeight}')`
 const registerInp = document.getElementById("register-input")
 const registerForm = document.getElementById("register-form")
 const chatDiv = document.getElementById("chat")
@@ -17,7 +17,8 @@ document.addEventListener('contextmenu', event => event.preventDefault())
 document.addEventListener('dragstart', event => event.preventDefault())
 
 
-let socket = io.connect('localhost:3000')
+const socket = io.connect('https://tank-multiplayer.herokuapp.com/')
+// let socket = io.connect('localhost:3000')
 
 socket.on("setCanvasSize", data => {
     canvas.width = data.width
@@ -116,7 +117,24 @@ function drawPlayer(player){
     c.translate(-player.pos.x, -player.pos.y)
     c.drawImage(tankImg, 0, 0, 64, 64, player.pos.x-24, player.pos.y-24, 48, 48)
     c.restore()
+
+    //tegner navn og hp-bar
+    c.fillStyle = "black"
+    c.font = "14px Monospace"
+    c.textAlign = "center"
+    c.fillText(player.name, player.pos.x, player.pos.y+30)
+
+    c.fillStyle = "red"
+    c.fillRect(player.pos.x-player.startHealth/8, player.pos.y-32, player.health/4, 8)
+    c.strokeStyle = "grey"
+    c.strokeRect(player.pos.x-player.startHealth/8, player.pos.y-32, player.startHealth/4, 8)
+    c.fillStyle = "black"
+    c.textAlign = "center"
+    c.font = "12px monospace"
+    c.fillText(`HP: ${player.health} / ${player.startHealth}`, player.pos.x, player.pos.y-38)
+
     c.closePath()
+
 
 
     c.beginPath()
@@ -164,12 +182,11 @@ function keyHandling(e){
 
 //sender museposisjon til serveren
 function moveMouse(e){
-    socket.emit("updateMouse", {x: e.clientX - 8, y: e.clientY - 8})
+    socket.emit("updateMouse", {x: e.clientX, y: e.clientY})
 }
 
 function singleFire(e){
-    moveMouse(e)
-    socket.emit("singleFire", "Tror ikke jeg trenger noe data her")
+    socket.emit("singleFire", {x: e.clientX, y: e.clientY})
 }
 
 
